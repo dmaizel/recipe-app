@@ -9,10 +9,10 @@ class Meal {
     duration,
     ingredients,
     steps,
-    isGlutenFree,
-    isVegan,
-    isVegetarian,
-    isLactoseFree
+    isGlutenFree = false,
+    isVegan = false,
+    isVegetarian = false,
+    isLactoseFree = false
   ) {
     this.id = id;
     this.categoryIds = categoryIds;

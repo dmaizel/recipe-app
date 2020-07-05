@@ -4,6 +4,8 @@ import { useSelector } from 'react-redux';
 import { CATEGORIES } from '../data/dummy-data';
 import MealList from '../components/MealList';
 import DefaultText from '../components/DefaultText';
+import { HeaderButtons, Item } from 'react-navigation-header-buttons';
+import { MaterialCustomHeaderButton } from '../components/HeaderButton';
 
 const CategoryMealsScreen = (props) => {
   const catId = props.navigation.getParam('categoryId');
@@ -31,6 +33,19 @@ CategoryMealsScreen.navigationOptions = (navigationData) => {
 
   return {
     headerTitle: selectedCategory.title,
+    headerRight: () => (
+      <HeaderButtons HeaderButtonComponent={MaterialCustomHeaderButton}>
+        <Item
+          title='Add'
+          iconName={'add-to-photos'}
+          onPress={() => {
+            navigationData.navigation.navigate({
+              routeName: 'AddMeal',
+            });
+          }}
+        />
+      </HeaderButtons>
+    ),
   };
 };
 

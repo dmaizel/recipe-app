@@ -1,12 +1,15 @@
-import React, { useEffect, useCallback } from 'react';
+import React, { useEffect, useCallback, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { View, Text, StyleSheet, ScrollView, Image } from 'react-native';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
-import CustomHeaderButton from '../components/HeaderButton';
+import { IoniconCustomHeaderButton } from '../components/HeaderButton';
 import DefaultText from '../components/DefaultText';
 import Colors from '../constants/Colors';
 import { Ionicons } from '@expo/vector-icons';
 import { toggleFavorite } from '../store/actions/meals';
+
+import ImageView from 'react-native-image-viewing';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 const ListItem = (props) => {
   return (
@@ -24,6 +27,8 @@ const MealDetailScreen = (props) => {
   );
   const selectedMeal = availableMeals.find((meal) => meal.id === mealId);
 
+  const [visible, setIsVisible] = useState(false);
+
   const dispatch = useDispatch();
 
   const toggleFavoriteHandler = useCallback(() => {
@@ -38,9 +43,22 @@ const MealDetailScreen = (props) => {
     props.navigation.setParams({ isFav: currentMealIsFavorite });
   }, [currentMealIsFavorite]);
 
+  const images = selectedMeal.imgUrl.map((uri) => {
+    return { uri };
+  });
+
   return (
     <ScrollView style={styles.screen}>
-      <Image source={{ uri: selectedMeal.imgUrl }} style={styles.image} />
+      <TouchableOpacity onPress={() => setIsVisible(true)}>
+        <Image source={{ uri: selectedMeal.imgUrl[0] }} style={styles.image} />
+      </TouchableOpacity>
+      <ImageView
+        images={images}
+        imageIndex={0}
+        visible={visible}
+        onRequestClose={() => setIsVisible(false)}
+      />
+
       <View style={styles.details}>
         <DefaultText>{selectedMeal.duration}m</DefaultText>
         <DefaultText>{selectedMeal.complexity.toUpperCase()}</DefaultText>
@@ -74,7 +92,7 @@ MealDetailScreen.navigationOptions = (navigationData) => {
   return {
     headerTitle: mealTitle,
     headerRight: () => (
-      <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
+      <HeaderButtons HeaderButtonComponent={IoniconCustomHeaderButton}>
         <Item
           title='Favorite'
           iconName={isFavorite ? 'ios-star' : 'ios-star-outline'}

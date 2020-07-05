@@ -18,7 +18,7 @@ const MealList = (props) => {
         duration={itemData.item.duration}
         complexity={itemData.item.complexity}
         affordability={itemData.item.affordability}
-        image={itemData.item.imgUrl}
+        image={itemData.item.imgUrl[0]}
         onSelectMeal={() => {
           props.navigation.navigate({
             routeName: 'MealDetail',
@@ -35,6 +35,7 @@ const MealList = (props) => {
 
   return (
     <View style={styles.list}>
+      {console.log(props.listData)}
       <FlatList
         data={props.listData}
         renderItem={renderMealItem}

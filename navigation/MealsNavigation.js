@@ -9,6 +9,7 @@ import CategoryMealsScreen from '../screens/CategoryMealsScreen';
 import MealDetailScreen from '../screens/MealDetailScreen';
 import FavoritesScren from '../screens/FavoritesScreen';
 import FiltersScreen from '../screens/FiltersScreen';
+import AddMealScreen from '../screens/AddMealScreen';
 // Navigation
 import { createAppContainer } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
@@ -34,6 +35,7 @@ const MealsNavigator = createStackNavigator(
       screen: CategoryMealsScreen,
     },
     MealDetail: MealDetailScreen,
+    AddMeal: AddMealScreen,
   },
   {
     defaultNavigationOptions: defaultStackNavOptions,
