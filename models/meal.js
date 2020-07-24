@@ -1,32 +1,12 @@
 class Meal {
-  constructor(
-    id,
-    categoryIds,
-    title,
-    affordability,
-    complexity,
-    imgUrl,
-    duration,
-    ingredients,
-    steps,
-    isGlutenFree = false,
-    isVegan = false,
-    isVegetarian = false,
-    isLactoseFree = false
-  ) {
+  constructor(id, categoryId, title, imgUrl, duration, ingredients, steps) {
     this.id = id;
-    this.categoryIds = categoryIds;
+    this.categoryId = categoryId;
     this.title = title;
-    this.affordability = affordability;
-    this.complexity = complexity;
     this.imgUrl = imgUrl;
     this.duration = duration;
     this.ingredients = ingredients;
     this.steps = steps;
-    this.isGlutenFree = isGlutenFree;
-    this.isVegan = isVegan;
-    this.isVegetarian = isVegetarian;
-    this.isLactoseFree = isLactoseFree;
   }
 }
 

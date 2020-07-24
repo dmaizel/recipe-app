@@ -8,7 +8,7 @@ import CategoriesScreen from '../screens/CategoriesScreen';
 import CategoryMealsScreen from '../screens/CategoryMealsScreen';
 import MealDetailScreen from '../screens/MealDetailScreen';
 import FavoritesScren from '../screens/FavoritesScreen';
-import FiltersScreen from '../screens/FiltersScreen';
+import SearchScreen from '../screens/SearchScreen';
 import AddMealScreen from '../screens/AddMealScreen';
 // Navigation
 import { createAppContainer } from 'react-navigation';
@@ -102,9 +102,9 @@ const MealsFavTabNavigator =
         },
       });
 
-const FiltersNavigator = createStackNavigator(
+const SearchNavigator = createStackNavigator(
   {
-    Filters: FiltersScreen,
+    Search: SearchScreen,
   },
   {
     defaultNavigationOptions: defaultStackNavOptions,
@@ -119,7 +119,7 @@ const mainNavigator = createDrawerNavigator(
         drawerLabel: 'Meals',
       },
     },
-    Filters: FiltersNavigator,
+    Search: SearchNavigator,
   },
   {
     contentOptions: {

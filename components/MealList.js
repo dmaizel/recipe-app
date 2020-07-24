@@ -35,7 +35,7 @@ const MealList = (props) => {
 
   return (
     <View style={styles.list}>
-      {console.log(props.listData)}
+      {/* {console.log(props.listData)} */}
       <FlatList
         data={props.listData}
         renderItem={renderMealItem}

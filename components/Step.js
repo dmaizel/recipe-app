@@ -29,7 +29,7 @@ const Step = (props) => {
         backgroundColor: '#fff',
       }}
     >
-      <View style={styles.circle}>
+      <View style={props.index > 9 ? styles.bigCircle : styles.circle}>
         <Text style={styles.number}>{props.index}</Text>
       </View>
       <View style={{ flex: 4 }}>

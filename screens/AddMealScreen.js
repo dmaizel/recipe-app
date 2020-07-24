@@ -61,20 +61,16 @@ const Ingredients = (props) => {
 
 const AddMealScreen = (props) => {
   const [selectedImages, setSelectedImages] = useState([]);
+  const currentCategory = props.navigation.getParam('categoryId');
+  console.log(currentCategory);
   const [meal, setMeal] = useState({
     id: '',
-    categoryIds: ['c2'],
+    categoryId: currentCategory,
     title: '',
-    affordability: '',
-    complexity: '',
     imgUrl: [],
     duration: '',
     ingredients: [],
     steps: [],
-    isGlutenFree: false,
-    isVegan: false,
-    isVegetarian: false,
-    isLactoseFree: false,
   });
 
   const dispatch = useDispatch();
@@ -88,6 +84,7 @@ const AddMealScreen = (props) => {
     newMeal = { ...newMeal, imgUrl: selectedImages };
     dispatch(actions.addMeal(newMeal));
     props.navigation.goBack();
+    console.log('Pressed');
   };
 
   const handleIngredientSubmit = (ingredient, setIngredient) => {
@@ -107,7 +104,7 @@ const AddMealScreen = (props) => {
   };
 
   return (
-    <ScrollView>
+    <ScrollView keyboardShouldPersistTaps={'handled'}>
       <View style={styles.screen}>
         <View style={styles.formFields}>
           <TextInput
@@ -160,22 +157,6 @@ const AddMealScreen = (props) => {
               />
             </View>
           </View> */}
-          <TextInput
-            style={styles.formField}
-            placeholder='Affordability'
-            value={meal.affordability}
-            onChangeText={(newAffordability) => {
-              setMeal({ ...meal, affordability: newAffordability });
-            }}
-          />
-          <TextInput
-            style={styles.formField}
-            placeholder='Complexity'
-            value={meal.complexity}
-            onChangeText={(newComplexity) => {
-              setMeal({ ...meal, complexity: newComplexity });
-            }}
-          />
           <TextInput
             style={styles.formField}
             placeholder='Duration'
@@ -268,6 +249,19 @@ const styles = StyleSheet.create({
     height: 30,
     width: 30,
     borderRadius: 20,
+    borderWidth: 1,
+    borderColor: 'black',
+    backgroundColor: Colors.primaryColor,
+    marginVertical: 10,
+    alignContent: 'center',
+    justifyContent: 'center',
+  },
+  bigCircle: {
+    marginLeft: 10,
+    paddingLeft: 4.5,
+    height: 30,
+    width: 30,
+    borderRadius: 30,
     borderWidth: 1,
     borderColor: 'black',
     backgroundColor: Colors.primaryColor,

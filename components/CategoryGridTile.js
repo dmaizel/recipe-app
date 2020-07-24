@@ -6,6 +6,7 @@ import {
   StyleSheet,
   Platform,
   TouchableNativeFeedback,
+  Image,
 } from 'react-native';
 
 const CategoryGridTile = (props) => {
@@ -17,12 +18,13 @@ const CategoryGridTile = (props) => {
 
   return (
     <TouchableCmp style={styles.gridItem} onPress={props.onSelect}>
-      <View
-        style={{ ...styles.container, ...{ backgroundColor: props.color } }}
-      >
-        <Text style={styles.title} numberOfLines={2}>
-          {props.title}
-        </Text>
+      <View style={{ ...styles.container, ...{ backgroundColor: '#D3D3D3' } }}>
+        <Image style={styles.image} source={require('../assets/food.jpg')} />
+        <View style={styles.titleContainer}>
+          <Text style={styles.title} numberOfLines={2}>
+            {props.title}
+          </Text>
+        </View>
       </View>
     </TouchableCmp>
   );
@@ -42,16 +44,27 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
+    flexDirection: 'row',
     borderRadius: 10,
     shadowColor: 'black',
     padding: 15,
-    justifyContent: 'flex-end',
-    alignItems: 'flex-end',
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+  },
+  titleContainer: {
+    justifyContent: 'center',
+    alignItems: 'flex-start',
+    marginLeft: 10,
   },
   title: {
     fontFamily: 'open-sans-bold',
     fontSize: 20,
     textAlign: 'right',
+  },
+  image: {
+    height: 100,
+    width: 100,
+    borderRadius: 50,
   },
 });
 

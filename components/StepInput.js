@@ -29,7 +29,7 @@ const StepInput = (props) => {
         backgroundColor: '#fff',
       }}
     >
-      <View style={styles.circle}>
+      <View style={props.index > 9 ? styles.bigCircle : styles.circle}>
         <Text style={styles.number}>{props.index}</Text>
       </View>
       <View style={{ flex: 4 }}>
@@ -75,6 +75,18 @@ const styles = StyleSheet.create({
     height: 30,
     width: 30,
     borderRadius: 20,
+    borderWidth: 1,
+    borderColor: 'black',
+    backgroundColor: Colors.primaryColor,
+    alignContent: 'center',
+    justifyContent: 'center',
+  },
+  bigCircle: {
+    paddingLeft: 4.5,
+    marginRight: 7,
+    height: 30,
+    width: 30,
+    borderRadius: 30,
     borderWidth: 1,
     borderColor: 'black',
     backgroundColor: Colors.primaryColor,
