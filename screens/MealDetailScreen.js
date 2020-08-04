@@ -1,182 +1,3 @@
-// import React, { useEffect, useCallback, useState } from 'react';
-// import { useSelector, useDispatch } from 'react-redux';
-// import { View, Text, StyleSheet, ScrollView, Image } from 'react-native';
-// import { HeaderButtons, Item } from 'react-navigation-header-buttons';
-// import { IoniconCustomHeaderButton } from '../components/HeaderButton';
-// import DefaultText from '../components/DefaultText';
-// import Colors from '../constants/Colors';
-// import { Ionicons } from '@expo/vector-icons';
-// import { toggleFavorite } from '../store/actions/meals';
-
-// import ImageView from 'react-native-image-viewing';
-// import { TouchableOpacity } from 'react-native-gesture-handler';
-
-// const ListItem = (props) => {
-//   return (
-//     <View style={styles.listItem}>
-//       <DefaultText style={styles.textContent}>{props.children}</DefaultText>
-//     </View>
-//   );
-// };
-
-// const MealDetailScreen = (props) => {
-//   const availableMeals = useSelector((state) => state.meals.meals);
-//   const mealId = props.navigation.getParam('mealId');
-//   const currentMealIsFavorite = useSelector((state) =>
-//     state.meals.favoriteMeals.some((meal) => meal.id === mealId)
-//   );
-//   const selectedMeal = availableMeals.find((meal) => meal.id === mealId);
-
-//   const [visible, setIsVisible] = useState(false);
-
-//   const dispatch = useDispatch();
-
-//   const toggleFavoriteHandler = useCallback(() => {
-//     dispatch(toggleFavorite(mealId));
-//   }, [dispatch, mealId]);
-
-//   useEffect(() => {
-//     props.navigation.setParams({ toggleFav: toggleFavoriteHandler });
-//   }, [toggleFavoriteHandler]);
-
-//   useEffect(() => {
-//     props.navigation.setParams({ isFav: currentMealIsFavorite });
-//   }, [currentMealIsFavorite]);
-
-//   const images = selectedMeal.imgUrl.map((uri) => {
-//     return { uri };
-//   });
-
-//   return (
-//     <ScrollView style={styles.screen}>
-//       <TouchableOpacity onPress={() => setIsVisible(true)}>
-//         <Image source={{ uri: selectedMeal.imgUrl[0] }} style={styles.image} />
-//       </TouchableOpacity>
-//       <ImageView
-//         images={images}
-//         imageIndex={0}
-//         visible={visible}
-//         onRequestClose={() => setIsVisible(false)}
-//       />
-
-//       <View style={styles.details}>
-//         <DefaultText>{selectedMeal.duration}m</DefaultText>
-//       </View>
-//       <Text style={styles.title}>Ingredients</Text>
-//       {selectedMeal.ingredients.map((ingredient) => (
-//         <View style={styles.ingredient} key={ingredient}>
-//           <Ionicons name='md-checkmark' size={24} color={Colors.primaryColor} />
-//           <ListItem>{ingredient}</ListItem>
-//         </View>
-//       ))}
-//       <Text style={styles.title}>Steps</Text>
-//       {selectedMeal.steps.map((step, index) => (
-//         <View style={styles.step} key={step}>
-//           <View style={index + 1 < 10 ? styles.circle : styles.bigCircle}>
-//             <Text style={styles.number}>{index + 1}</Text>
-//           </View>
-//           <ListItem>{step}</ListItem>
-//         </View>
-//       ))}
-//     </ScrollView>
-//   );
-// };
-
-// MealDetailScreen.navigationOptions = (navigationData) => {
-//   const mealTitle = navigationData.navigation.getParam('mealTitle');
-//   const toggleFavorite = navigationData.navigation.getParam('toggleFav');
-//   const isFavorite = navigationData.navigation.getParam('isFav');
-
-//   return {
-//     headerTitle: mealTitle,
-//     headerRight: () => (
-//       <HeaderButtons HeaderButtonComponent={IoniconCustomHeaderButton}>
-//         <Item
-//           title='Favorite'
-//           iconName={isFavorite ? 'ios-star' : 'ios-star-outline'}
-//           onPress={toggleFavorite}
-//         />
-//       </HeaderButtons>
-//     ),
-//   };
-// };
-
-// const styles = StyleSheet.create({
-//   screen: {},
-//   image: {
-//     width: '100%',
-//     height: 200,
-//   },
-//   details: {
-//     flexDirection: 'row',
-//     padding: 15,
-//     justifyContent: 'space-around',
-//   },
-//   title: {
-//     fontFamily: 'open-sans-bold',
-//     fontSize: 22,
-//     textAlign: 'center',
-//     marginTop: 20,
-//   },
-//   listItem: {
-//     marginVertical: 10,
-//     marginHorizontal: 20,
-//     flexGrow: 1,
-//     flex: 1,
-//   },
-//   step: {
-//     flexDirection: 'row',
-//     borderColor: '#ccc',
-//     borderBottomWidth: 1,
-//     alignItems: 'center',
-//     paddingVertical: 15,
-//   },
-//   ingredient: {
-//     flexDirection: 'row',
-//     borderBottomWidth: 1,
-//     borderColor: '#ccc',
-//     paddingVertical: 10,
-//     alignItems: 'center',
-//     paddingLeft: 10,
-//   },
-//   circle: {
-//     marginLeft: 10,
-//     padding: 10,
-//     height: 30,
-//     width: 30,
-//     borderRadius: 20,
-//     borderWidth: 1,
-//     borderColor: 'black',
-//     backgroundColor: Colors.primaryColor,
-//     marginVertical: 10,
-//     alignContent: 'center',
-//     justifyContent: 'center',
-//   },
-//   bigCircle: {
-//     marginLeft: 10,
-//     paddingLeft: 4.5,
-//     height: 30,
-//     width: 30,
-//     borderRadius: 30,
-//     borderWidth: 1,
-//     borderColor: 'black',
-//     backgroundColor: Colors.primaryColor,
-//     marginVertical: 10,
-//     alignContent: 'center',
-//     justifyContent: 'center',
-//   },
-//   number: {
-//     color: 'white',
-//     fontSize: 16,
-//     fontFamily: 'open-sans-bold',
-//   },
-//   textContent: {
-//     fontSize: 16,
-//   },
-// });
-
-// export default MealDetailScreen;
-
 import React, { useState, Fragment, useCallback, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import {
@@ -188,19 +9,20 @@ import {
   Image,
   Dimensions,
   TouchableHighlight,
+  StatusBar,
+  Alert,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import Colors from '../constants/Colors';
 import DefaultText from '../components/DefaultText';
 
 import GradientButton from 'react-native-gradient-buttons';
-
-// import Carousel, { Pagination } from 'react-native-snap-carousel';
-import BackButton from '../components/BackButton';
 import Carousel from '../components/Carousel';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 import { IoniconCustomHeaderButton } from '../components/HeaderButton';
-import { toggleFavorite } from '../store/actions/meals';
+import { toggleFavorite, deleteMeal } from '../store/actions/meals';
+
+import BackButton from '../components/BackButton';
 
 const { width: viewportWidth } = Dimensions.get('window');
 
@@ -214,29 +36,37 @@ const ListItem = (props) => {
 
 const MealDetailScreen = (props) => {
   const [mealImages, setMealImages] = useState(
-    props.navigation.getParam('item').imgUrl
+    props.navigation.getParam('item') &&
+      props.navigation.getParam('item').imgUrl
   );
+
   const [showDetails, setShowDetails] = useState(false);
   const availableMeals = useSelector((state) => state.meals.meals);
   const mealId = props.navigation.getParam('item').id;
-  const currentMealIsFavorite = useSelector((state) =>
-    state.meals.favoriteMeals.some((meal) => meal.id === mealId)
-  );
+  const currentMeal = availableMeals.find((meal) => meal.id == mealId);
+  const currentMealIsFavorite = currentMeal && currentMeal.isFavorite;
   const dispatch = useDispatch();
+
+  const deleteMealHandler = useCallback(() => {
+    console.log('deleteMealHandler has dispatched');
+    dispatch(deleteMeal(mealId, props));
+  }, [dispatch]);
 
   const toggleFavoriteHandler = useCallback(() => {
     dispatch(toggleFavorite(mealId));
-  }, [dispatch, mealId]);
+  }, [dispatch, mealId, toggleFavorite]);
 
   useEffect(() => {
     props.navigation.setParams({ toggleFav: toggleFavoriteHandler });
-  }, [toggleFavoriteHandler]);
-
-  useEffect(() => {
     props.navigation.setParams({ isFav: currentMealIsFavorite });
-  }, [currentMealIsFavorite]);
+    props.navigation.setParams({ deleteMealHandler: deleteMealHandler });
 
-  renderImage = ({ item }) => (
+    // return () => {
+    //   props.navigation.de;
+    // };
+  }, [toggleFavoriteHandler, currentMealIsFavorite, deleteMealHandler]);
+
+  const renderImage = ({ item }) => (
     <TouchableHighlight>
       <View style={styles.imageContainer}>
         <Image style={styles.image} source={{ uri: item }} />
@@ -251,6 +81,8 @@ const MealDetailScreen = (props) => {
 
   return (
     <ScrollView style={styles.container}>
+      <StatusBar />
+
       <View style={styles.carouselContainer}>
         <View style={styles.carousel}>
           <Carousel data={mealImages} />
@@ -315,26 +147,18 @@ const MealDetailScreen = (props) => {
   );
 };
 
-// MealDetailScreen.navigationOptions = ({ navigation }) => {
-//   return {
-//     headerTransparent: 'true',
-//     headerLeft: (
-//       <BackButton
-//         onPress={() => {
-//           navigation.goBack();
-//         }}
-//       />
-//     ),
-//   };
-// };
-
 MealDetailScreen.navigationOptions = (navigationData) => {
   const mealTitle = navigationData.navigation.getParam('mealTitle');
   const toggleFavorite = navigationData.navigation.getParam('toggleFav');
   const isFavorite = navigationData.navigation.getParam('isFav');
+  const deleteMealHandler = navigationData.navigation.getParam(
+    'deleteMealHandler'
+  );
+  const { navigation } = navigationData;
 
   return {
-    headerTitle: mealTitle,
+    headerTitle: '',
+    // headerShown: false,
     headerRight: () => (
       <HeaderButtons HeaderButtonComponent={IoniconCustomHeaderButton}>
         <Item
@@ -342,8 +166,39 @@ MealDetailScreen.navigationOptions = (navigationData) => {
           iconName={isFavorite ? 'ios-star' : 'ios-star-outline'}
           onPress={toggleFavorite}
         />
+        <Item title='Favorite2' iconName={'ios-create'} onPress={() => {}} />
+        <Item
+          title='Favorite2'
+          iconName={'ios-trash'}
+          onPress={() => {
+            Alert.alert(
+              'Attention!',
+              'This action can not be undone, are you sure you want to delete this recipe?',
+              [
+                {
+                  text: 'Cancel',
+                  onPress: () => console.log('Cancel Pressed'),
+                  style: 'cancel',
+                },
+                {
+                  text: 'OK',
+                  onPress: () => deleteMealHandler(),
+                  style: 'destructive',
+                },
+              ]
+            );
+          }}
+        />
       </HeaderButtons>
     ),
+    headerLeft: () => (
+      <BackButton
+        onPress={() => {
+          navigation.goBack();
+        }}
+      />
+    ),
+    headerTransparent: 'true',
   };
 };
 

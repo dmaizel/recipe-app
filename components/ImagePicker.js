@@ -5,15 +5,20 @@ import {
   Text,
   StyleSheet,
   Image,
-  TouchableHighlight,
+  TouchableOpacity,
+  Modal,
+  Alert,
 } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import * as Permissions from 'expo-permissions';
 
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import ImagePickerModal from './ImagePickerModal';
 
 const ImgPicker = (props) => {
-  const [pickedImage, setPickedImage] = useState();
+  const [pickedImage, setPickedImage] = useState(
+    props.pickedImage ? props.pickedImage : null
+  );
 
   const verifyPermissions = async () => {
     const result = await Permissions.askAsync(
@@ -41,23 +46,126 @@ const ImgPicker = (props) => {
       aspect: [16, 9],
       quality: 0.5,
     });
-
-    setPickedImage(image.uri);
-    props.onImageTaken(image.uri);
+    if (!image.cancelled) {
+      setPickedImage(image.uri);
+      props.onImageTaken(image.uri);
+    }
+    setShowModal(false);
   };
 
+  const chooseImageHandler = async () => {
+    const hasPermission = await verifyPermissions();
+    if (!hasPermission) {
+      return;
+    }
+    const image = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [16, 9],
+      quality: 0.5,
+    });
+    if (!image.cancelled) {
+      setPickedImage(image.uri);
+      props.onImageTaken(image.uri);
+    }
+    setShowModal(false);
+  };
+
+  const [showModal, setShowModal] = useState(false);
+
   return (
-    <View style={[styles.imagePicker, { ...props.style }]}>
-      <View style={styles.imagePreview}>
+    <View style={[styles.imagePicker, { ...props.style, flex: 1 }]}>
+      <View
+        style={{
+          ...styles.imagePreview,
+          flex: 1,
+        }}
+      >
         {!pickedImage ? (
-          <View>
+          <View
+            style={{
+              flex: 1,
+              width: '100%',
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}
+          >
             {/* <Text>No image picked yet.</Text> */}
-            <TouchableHighlight onPress={takeImageHandler}>
+            {/* <TouchableHighlight onPress={takeImageHandler}>
               <Icon name='add-a-photo' size={90} />
-            </TouchableHighlight>
+            </TouchableHighlight>             */}
+            <TouchableOpacity onPress={() => setShowModal(true)}>
+              <Icon name='add-a-photo' size={90} />
+            </TouchableOpacity>
+            <Modal
+              transparent={true}
+              visible={showModal}
+              onRequestClose={() => {
+                setShowModal(false);
+              }}
+              animationType='fade'
+            >
+              <ImagePickerModal
+                setShowModal={setShowModal}
+                showModal={showModal}
+                chooseImageHandler={chooseImageHandler}
+                takeImageHandler={takeImageHandler}
+              />
+            </Modal>
           </View>
         ) : (
-          <Image style={styles.image} source={{ uri: pickedImage }} />
+          // <View style={{ flex: 1, width: '100%' }}>
+          //   <TouchableOpacity onPress={() => setShowModal(true)}>
+          //     <Image style={styles.image} source={{ uri: pickedImage }} />
+          //   </TouchableOpacity>
+          // </View>
+          <View styles={{ flex: 1 }}>
+            {/* <Text>No image picked yet.</Text> */}
+            {/* <TouchableHighlight onPress={takeImageHandler}>
+              <Icon name='add-a-photo' size={90} />
+            </TouchableHighlight>             */}
+            <TouchableOpacity
+              onLongPress={() => {
+                Alert.alert(
+                  'Delete',
+                  'Are you sure you want to delete this photo?',
+                  [
+                    {
+                      text: 'Delete',
+                      style: 'destructive',
+                      onPress: () => {
+                        props.onImageRemoved(pickedImage);
+                        setPickedImage(null);
+                      },
+                    },
+                    {
+                      text: 'Cancel',
+                    },
+                  ]
+                );
+              }}
+            >
+              <Image
+                style={{ ...styles.image }}
+                source={{ uri: pickedImage }}
+              />
+            </TouchableOpacity>
+            <Modal
+              transparent={true}
+              visible={showModal}
+              onRequestClose={() => {
+                setShowModal(false);
+              }}
+              animationType='fade'
+            >
+              <ImagePickerModal
+                setShowModal={setShowModal}
+                showModal={showModal}
+                chooseImageHandler={chooseImageHandler}
+                takeImageHandler={takeImageHandler}
+              />
+            </Modal>
+          </View>
         )}
       </View>
     </View>
@@ -67,12 +175,11 @@ const ImgPicker = (props) => {
 const styles = StyleSheet.create({
   imagePicker: {
     alignItems: 'center',
+    flex: 1,
   },
   imagePreview: {
     width: '100%',
     height: '100%',
-    justifyContent: 'center',
-    alignItems: 'center',
     borderColor: '#ccc',
     borderWidth: 1,
   },
@@ -81,6 +188,15 @@ const styles = StyleSheet.create({
     minWidth: 90,
     width: '100%',
     height: '100%',
+  },
+  buttonStyle: {
+    borderBottomWidth: StyleSheet.hairlineWidth,
+    borderColor: 'black',
+    justifyContent: 'center',
+    alignItems: 'flex-start',
+    marginTop: 10,
+    paddingLeft: 20,
+    paddingBottom: 5,
   },
 });
 

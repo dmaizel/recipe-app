@@ -43,7 +43,7 @@ const Carousel = ({ data }) => {
           {data.map((_, i) => {
             let opacity = position.interpolate({
               inputRange: [i - 1, i, i + 1],
-              outputRange: [0.3, 1, 0.3],
+              outputRange: [0.3, 5, 0.3],
               extrapolate: 'clamp',
             });
             return (
@@ -73,4 +73,4 @@ const styles = StyleSheet.create({
   dotView: { flexDirection: 'row', justifyContent: 'center' },
 });
 
-export default Carousel;
+export default React.memo(Carousel);

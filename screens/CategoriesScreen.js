@@ -1,5 +1,5 @@
-import React from 'react';
-import { useSelector } from 'react-redux';
+import React, { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import {
   StyleSheet,
   FlatList,
@@ -7,14 +7,26 @@ import {
   TouchableHighlight,
   Image,
   Text,
+  Alert,
 } from 'react-native';
-
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 import { IoniconCustomHeaderButton } from '../components/HeaderButton';
 import { categories } from '../data/temp-data';
+import * as mealsActions from '../store/actions/meals';
 
 const CategoriesScreen = ({ navigation }) => {
-  const meals = useSelector((state) => state.meals.meals);
+  let meals = useSelector((state) => state.meals.meals);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    (async function fetch() {
+      try {
+        await dispatch(mealsActions.fetchMeals());
+        // meals = useSelector((state) => state.meals.meals);
+      } catch (err) {
+        Alert.alert(err.message);
+      }
+    })();
+  }, [dispatch]);
 
   function getNumberOfRecipes(categoryId) {
     let count = 0;
@@ -128,7 +140,6 @@ const styles = StyleSheet.create({
     },
     shadowRadius: 5,
     shadowOpacity: 1.0,
-    elevation: 3,
   },
   categoriesName: {
     flex: 1,

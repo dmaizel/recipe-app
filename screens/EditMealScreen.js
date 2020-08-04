@@ -61,19 +61,18 @@ const Ingredients = (props) => {
   );
 };
 
-const AddMealScreen = (props) => {
-  const [selectedImages, setSelectedImages] = useState([]);
-  const [showModal, setShowModal] = useState(false);
-  const currentCategory = props.navigation.getParam('categoryId');
-  console.log(currentCategory);
+const EditMealScreen = (props) => {
+  const mealToEdit = props.meal;
+  const [selectedImages, setSelectedImages] = useState(mealToEdit.imgUrl);
+  const copyOfSelectedImages = [...selectedImages];
   const [meal, setMeal] = useState({
-    id: '',
-    categoryId: currentCategory,
-    title: '',
-    imgUrl: [],
-    duration: '',
-    ingredients: [],
-    steps: [],
+    id: mealToEdit.id,
+    categoryId: mealToEdit.categoryId,
+    title: mealToEdit.title,
+    imgUrl: mealToEdit.imgUrl,
+    duration: mealToEdit.duration,
+    ingredients: mealToEdit.ingredient,
+    steps: mealToEdit.steps,
   });
 
   const dispatch = useDispatch();
@@ -88,8 +87,7 @@ const AddMealScreen = (props) => {
 
   const saveMealHandler = () => {
     let newMeal = { ...meal };
-    newMeal = { ...newMeal, imgUrl: selectedImages };
-    dispatch(actions.addMeal(newMeal, props));
+    dispatch(actions.editMeal(newMeal, props));
   };
 
   const handleIngredientSubmit = (ingredient, setIngredient) => {
@@ -125,6 +123,7 @@ const AddMealScreen = (props) => {
               <ImagePicker
                 onImageTaken={imageTakenHandler}
                 onImageRemoved={onImageRemoved}
+                pickedImage={copyOfSelectedImages.pop()}
               />
             </Col>
             <Col size={25}>
@@ -132,12 +131,14 @@ const AddMealScreen = (props) => {
                 <ImagePicker
                   onImageTaken={imageTakenHandler}
                   onImageRemoved={onImageRemoved}
+                  pickedImage={copyOfSelectedImages.pop()}
                 />
               </Row>
               <Row>
                 <ImagePicker
                   onImageTaken={imageTakenHandler}
                   onImageRemoved={onImageRemoved}
+                  pickedImage={copyOfSelectedImages.pop()}
                 />
               </Row>
             </Col>
@@ -146,12 +147,14 @@ const AddMealScreen = (props) => {
                 <ImagePicker
                   onImageTaken={imageTakenHandler}
                   onImageRemoved={onImageRemoved}
+                  pickedImage={copyOfSelectedImages.pop()}
                 />
               </Row>
               <Row>
                 <ImagePicker
                   onImageTaken={imageTakenHandler}
                   onImageRemoved={onImageRemoved}
+                  pickedImage={copyOfSelectedImages.pop()}
                 />
               </Row>
             </Col>

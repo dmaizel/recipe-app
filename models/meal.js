@@ -1,5 +1,14 @@
 class Meal {
-  constructor(id, categoryId, title, imgUrl, duration, ingredients, steps) {
+  constructor(
+    id,
+    categoryId,
+    title,
+    imgUrl,
+    duration,
+    ingredients,
+    steps,
+    isFavorite = false
+  ) {
     this.id = id;
     this.categoryId = categoryId;
     this.title = title;
@@ -7,6 +16,7 @@ class Meal {
     this.duration = duration;
     this.ingredients = ingredients;
     this.steps = steps;
+    this.isFavorite = isFavorite;
   }
 }
 

@@ -5,7 +5,9 @@ import { useSelector } from 'react-redux';
 import MealItem from './MealItem';
 
 const MealList = (props) => {
-  const favoriteMeals = useSelector((state) => state.meals.favoriteMeals);
+  const favoriteMeals = useSelector((state) => state.meals.meals).filter(
+    (meal) => meal.isFavorite === true
+  );
 
   const renderMealItem = (itemData) => {
     const isFavorite = favoriteMeals.some(
